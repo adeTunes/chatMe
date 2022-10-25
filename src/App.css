@@ -1,38 +1,141 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html,
+body,
+#root {
+    height: 100%;
+    font-family: "Inter", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+::-webkit-scrollbar {
+    display: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.landingPageContainer {
+    height: 100%;
+    background-image: url("./utils/images/Landing\ Page.png");
+    background-size: cover;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.chat-friends {
+    background: linear-gradient(
+        85.54deg,
+        #22a5ff 0.44%,
+        rgba(34, 174, 255, 0.66) 17.35%,
+        rgba(33, 186, 255, 0.52) 31.02%,
+        rgba(33, 189, 255, 0.61) 46.42%,
+        rgba(33, 192, 255, 0.3) 68.28%,
+        rgba(32, 203, 255, 0.56) 100%
+    );
 }
 
-.App-link {
-  color: #61dafb;
+.ash-tag {
+    font-style: italic;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 39px;
+    text-transform: capitalize;
+    background: linear-gradient(
+        88.8deg,
+        #22a5ff -2.67%,
+        rgba(32, 203, 255, 0.61) 87.72%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.animated-text {
+    font-weight: 900;
+    font-size: 74px;
+    line-height: 90px;
+    text-transform: capitalize;
+    background: linear-gradient(
+        91.19deg,
+        #22a5ff 16.61%,
+        #20cbff 52.15%,
+        #20cbff 96.93%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cta-btn {
+    background: linear-gradient(
+        85.54deg,
+        #22a5ff 0.44%,
+        rgba(34, 174, 255, 0.66) 17.35%,
+        rgba(33, 186, 255, 0.52) 31.02%,
+        rgba(33, 189, 255, 0.61) 46.42%,
+        rgba(33, 192, 255, 0.3) 68.28%,
+        rgba(32, 203, 255, 0.56) 100%
+    );
+}
+
+.chat-page {
+    background: url("./utils/images/Chat\ Page.png");
+    background-size: cover;
+}
+
+.active {
+    background: #021457;
+}
+
+.chat-header {
+    background: #f9fafb;
+    box-shadow: 0px 8px 8px 4px rgba(0, 0, 0, 0.15);
+}
+
+.owner {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.owner p {
+    z-index: 1;
+}
+
+.owner p > img {
+    position: absolute;
+    height: 39px;
+    bottom: -9px;
+    right: -11px;
+    z-index: -1;
+}
+.received {
+    display: flex;
+    flex-direction: row;
+}
+.received p {
+    z-index: 1;
+}
+
+.received #received-date {
+    align-self: flex-end;
+}
+
+.received p > img {
+    position: absolute;
+    height: 39px;
+    bottom: -9px;
+    left: -11px;
+    z-index: -1;
+}
+
+.sendIcon {
+    background: linear-gradient(145.96deg, #22a5ff 20.9%, #00d1ff 85.39%);
+}
+
+.caller-pics {
+    animation: mymove 5s infinite;
+}
+
+@keyframes mymove {
+    50% {
+        box-shadow: 0px 0px 20px 18px rgba(0, 100, 255, 0.2);
+    }
 }
