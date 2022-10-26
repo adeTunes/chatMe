@@ -70,7 +70,11 @@ export default function ChatArea({
                         <p className="font-[600] text-[14px] leading-[24px] text-[#212143]">
                             Abraham Adeks
                         </p>
-                        <p className="font-[400] text-[12px] leading-[20px] text-[#54565B]">
+                        <p
+                            style={{
+                                whiteSpace: "nowrap",
+                            }}
+                            className="font-[400] text-[12px] leading-[20px] text-[#54565B]">
                             Hey ChatMellers! Patronize me, I sell all types of
                             weavons and wigs.
                         </p>
