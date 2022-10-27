@@ -85,6 +85,10 @@ body,
     background: #021457;
 }
 
+.list-hover:hover {
+    background: #021457;
+}
+
 .chat-header {
     background: #f9fafb;
     box-shadow: 0px 8px 8px 4px rgba(0, 0, 0, 0.15);
@@ -103,7 +107,7 @@ body,
     position: absolute;
     height: 39px;
     bottom: -9px;
-    right: -11px;
+    right: -8px;
     z-index: -1;
 }
 .received {

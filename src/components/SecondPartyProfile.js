@@ -6,10 +6,7 @@ import {
     ChatMedia3,
     ChatMedia4,
     ChatMedia5,
-    DocLogo,
-    PdfIcon,
-    PptLogo,
-    XlsLogo,
+    Subtract,
 } from "../utils";
 // import MenuItem from "@mui/material/MenuItem";
 
@@ -121,16 +118,16 @@ export default function PositionedMenu({
                         </p>
                         <ul className="flex gap-[8px]">
                             <li className="w-[50px] h-[50px]">
-                                <img src={PdfIcon} alt="" />
+                                <img src={Subtract} alt="" />
                             </li>
                             <li className="w-[50px] h-[50px]">
-                                <img src={PptLogo} alt="" />
+                                <img src={Subtract} alt="" />
                             </li>
                             <li className="w-[50px] h-[50px]">
-                                <img src={XlsLogo} alt="" />
+                                <img src={Subtract} alt="" />
                             </li>
                             <li className="w-[50px] h-[50px]">
-                                <img src={DocLogo} alt="" />
+                                <img src={Subtract} alt="" />
                             </li>
                         </ul>
                     </div>

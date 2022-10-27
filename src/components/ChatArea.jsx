@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import moment from "moment";
 import AuthContext from "../context/AuthContext";
 import * as Images from "../utils";
 import OptionsMenu from "./ChatOptions";
@@ -8,6 +9,9 @@ import SendIconConatainer from "./SendIcon";
 import { Timer } from "./Timer";
 import ViewImage from "./ViewImage";
 import ViewUserProfile from "./ViewUserProfile";
+import TextMessage from "./TextMessage";
+import ImageMessage from "./ImageMessage";
+import FileMessage from "./FileMessage";
 
 export default function ChatArea({
     handleViewProfileClose,
@@ -25,6 +29,10 @@ export default function ChatArea({
         pause,
         start,
         reset,
+        user,
+        currentConversation,
+        usersDetails,
+        groupByDate,
     } = useContext(AuthContext);
 
     const handleStartRecording = () => {
@@ -56,7 +64,21 @@ export default function ChatArea({
                 <div className="flex relative items-center gap-[12px]">
                     <span onClick={handleClick}>
                         <img
-                            src={Images.Person4}
+                            src={
+                                currentConversation.starter === user.id
+                                    ? usersDetails.reduce((acc, el) => {
+                                          el.userId ===
+                                              currentConversation.second_party &&
+                                              acc.push(el.userDP);
+                                          return acc;
+                                      }, [])
+                                    : usersDetails.reduce((acc, el) => {
+                                          el.userId ===
+                                              currentConversation.starter &&
+                                              acc.push(el.userDP);
+                                          return acc;
+                                      }, [])
+                            }
                             className="rounded-[50%] cursor-pointer object-cover w-[40px] h-[40px]"
                             alt=""
                         />
@@ -68,7 +90,11 @@ export default function ChatArea({
                     </span>
                     <div className="flex flex-col items-start gap-[4px]">
                         <p className="font-[600] text-[14px] leading-[24px] text-[#212143]">
-                            Abraham Adeks
+                            {currentConversation
+                                ? currentConversation.starter === user.id
+                                    ? currentConversation.second_party_username.toUpperCase()
+                                    : currentConversation.starter_username.toUpperCase()
+                                : ""}
                         </p>
                         <p
                             style={{
@@ -105,159 +131,86 @@ export default function ChatArea({
             </div>
             <div className="flex-1 overflow-auto">
                 <ul className="px-[30px] py-[5px] flex flex-col gap-[30px]">
-                    <li className="received">
-                        <div className="flex max-w-[60%] gap-[10px] flex-col">
-                            <p className="relative leading-[20px] text-[13px] text-[#212143] font-normal bg-[#FDFDFD] p-[10px] rounded-[13px]">
-                                Hello Janet. You can call me Tunes. It's
-                                pleasure to meet you. I'm from the States. Texas
-                                to be precise. What about you? Where do you
-                                reside?
-                                <img src={Images.ChatIcon2} alt="" />
-                            </p>
-                            <p
-                                id="received-date"
-                                className="bg-[#FDFDFD] text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                6:40PM
-                            </p>
-                        </div>
-                    </li>
-                    <li className="owner">
-                        <div className="max-w-[55%] flex flex-col gap-[10px] items-start">
-                            <p className="relative leading-[20px] text-[13px] text-[#212143] font-normal bg-[#FDFDFD] p-[10px] rounded-[13px]">
-                                Hello. Good evening there... I'm Janet Brits How
-                                you doing today?
-                                <img src={Images.ChatIcon} alt="" />
-                            </p>
-                            <p className="bg-[#FDFDFD] text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:00PM
-                            </p>
-                        </div>
-                    </li>
-                    <li className="owner">
-                        <div className="max-w-[55%] flex flex-col gap-[10px] items-start">
-                            <p className="relative leading-[20px] text-[13px] text-[#212143] font-normal bg-[#FDFDFD] p-[10px] rounded-[13px]">
-                                Hello. Good evening there... I'm Janet Brits How
-                                you doing today?
-                                <img src={Images.ChatIcon} alt="" />
-                            </p>
-                            <p className="bg-[#FDFDFD] text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:50PM
-                            </p>
-                        </div>
-                    </li>
-                    <li className="received">
-                        <div className="flex max-w-[55%] gap-[10px] flex-col">
-                            <p className="relative leading-[20px] text-[13px] text-[#212143] font-normal bg-[#FDFDFD] p-[10px] rounded-[13px]">
-                                Hi love! How are you doing today?
-                                <img src={Images.ChatIcon2} alt="" />
-                            </p>
-                            <p
-                                id="received-date"
-                                className="bg-[#FDFDFD] text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:30PM
-                            </p>
-                        </div>
-                    </li>
-                    <li className="received">
-                        <div className="flex max-w-[55%] gap-[10px] flex-col">
-                            <p className="relative leading-[20px] text-[13px] text-[#212143] font-normal bg-[#FDFDFD] p-[10px] rounded-[13px]">
-                                Hello Janet. You can call me Tunes. It's
-                                pleasure to meet you. I'm from the States. Texas
-                                to be precise. What about you? Where do you
-                                reside?
-                                <img src={Images.ChatIcon2} alt="" />
-                            </p>
-                            <p
-                                id="received-date"
-                                className="bg-[#FDFDFD] text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:45PM
-                            </p>
-                        </div>
-                    </li>
-                    {/* Picture message */}
-                    <li className="owner">
-                        <div className="flex flex-col gap-[10px] w-[48%] max-w-[338px]">
-                            <div className="bg-white p-[4px] relative z-[2] rounded-[10px]">
-                                <img
-                                    src={Images.UploadPicture}
-                                    className="object-cover w-full rounded-[10px]"
-                                    alt=""
-                                />
-                                <img
-                                    className="absolute bottom-[-13px] z-[-1] right-[-15px]"
-                                    src={Images.ChatIcon}
-                                    alt=""
-                                />
-                            </div>
-                            <p className="bg-[#FDFDFD] self-start text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:50PM
-                            </p>
-                        </div>
-                    </li>
-                    <li className="received">
-                        <div className="flex flex-col gap-[10px] w-[48%] max-w-[338px]">
-                            <div className="bg-white p-[4px] relative z-[2] rounded-[10px]">
-                                <img
-                                    src={Images.UploadPicture}
-                                    className="object-cover w-full rounded-[10px]"
-                                    alt=""
-                                />
-                                <img
-                                    className="absolute bottom-[-13px] z-[-1] left-[-15px]"
-                                    src={Images.ChatIcon2}
-                                    alt=""
-                                />
-                            </div>
-                            <p className="bg-[#FDFDFD] self-end text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:50PM
-                            </p>
-                        </div>
-                    </li>
-                    {/* File message */}
-                    <li className="owner">
-                        <div className="flex flex-col gap-[10px]">
-                            <div className="bg-white p-[16px] flex flex-col gap-[10px] items-center justify-center relative z-[2] rounded-[10px]">
-                                <img
-                                    src={Images.PdfLogo}
-                                    className="object-cover rounded-[10px]"
-                                    alt=""
-                                />
-                                <p className="text-[7px]">
-                                    How to become a millionaire in a week.pdf
+                    {Object.entries(groupByDate)
+                        .flat()
+                        .map((item, idx) =>
+                            Array.isArray(item) ? (
+                                item.map((message) =>
+                                    message.text &&
+                                    !message.files &&
+                                    !message.images ? (
+                                        user.id === message.sender ? (
+                                            <TextMessage
+                                                key={message.url}
+                                                message={message}
+                                                status="owner"
+                                            />
+                                        ) : (
+                                            <TextMessage
+                                                key={message.url}
+                                                message={message}
+                                                status="received"
+                                            />
+                                        )
+                                    ) : !message.text &&
+                                      !message.files &&
+                                      message.images ? (
+                                        user.id === message.sender ? (
+                                            <ImageMessage
+                                                key={message.url}
+                                                message={message}
+                                                status="owner"
+                                            />
+                                        ) : (
+                                            <ImageMessage
+                                                key={message.url}
+                                                message={message}
+                                                status="received"
+                                            />
+                                        )
+                                    ) : !message.text &&
+                                      message.files &&
+                                      !message.images ? (
+                                        user.id === message.sender ? (
+                                            <FileMessage
+                                                key={message.url}
+                                                message={message}
+                                                status="owner"
+                                            />
+                                        ) : (
+                                            <FileMessage
+                                                key={message.url}
+                                                message={message}
+                                                status="received"
+                                            />
+                                        )
+                                    ) : null
+                                )
+                            ) : (
+                                <p key={idx} className="flex justify-center">
+                                    <span className="bg-[#54565B] text-[13px] text-[#9FA19C] font-[400] px-[16px] opacity-50 rounded-[15px]">
+                                        {moment(new Date(item))
+                                            .calendar()
+                                            .includes("Yesterday") ||
+                                        moment(new Date(item))
+                                            .calendar()
+                                            .includes("Today")
+                                            ? moment(new Date(item))
+                                                  .calendar()
+                                                  .split(" ")[0]
+                                            : moment(new Date(item))
+                                                  .format("ll")
+                                                  .includes("2022")
+                                            ? moment(new Date(item))
+                                                  .format("ll")
+                                                  .replace(", 2022", "")
+                                            : moment(new Date(item)).format(
+                                                  "ll"
+                                              )}
+                                    </span>
                                 </p>
-                                <img
-                                    className="absolute bottom-[-13px] z-[-1] right-[-15px]"
-                                    src={Images.ChatIcon}
-                                    alt=""
-                                />
-                            </div>
-                            <p className="bg-[#FDFDFD] self-start text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:50PM
-                            </p>
-                        </div>
-                    </li>
-                    <li className="received">
-                        <div className="flex flex-col gap-[10px]">
-                            <div className="bg-white p-[16px] flex flex-col gap-[10px] items-center justify-center relative z-[2] rounded-[10px]">
-                                <img
-                                    src={Images.PdfLogo}
-                                    className="object-cover rounded-[10px]"
-                                    alt=""
-                                />
-                                <p className="text-[7px]">
-                                    How to become a millionaire in a week.pdf
-                                </p>
-                                <img
-                                    className="absolute bottom-[-13px] z-[-1] left-[-15px]"
-                                    src={Images.ChatIcon2}
-                                    alt=""
-                                />
-                            </div>
-                            <p className="bg-[#FDFDFD] self-end text-[13px] px-[6px] opacity-50 rounded-[15px]">
-                                7:50PM
-                            </p>
-                        </div>
-                    </li>
+                            )
+                        )}
                 </ul>
             </div>
             <div className="bg-white px-[20px] flex items-center">

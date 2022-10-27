@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 import * as Images from "../utils";
 
 export default function Navbar() {
+    const { logoutUser } = useContext(AuthContext);
     return (
         <nav className="w-[50px] bg-[#212143] opacity-80">
             <div className="flex h-full py-[40px] items-center flex-col justify-between">
@@ -40,8 +42,9 @@ export default function Navbar() {
                 </div>
                 <div>
                     <img
+                        onClick={logoutUser}
                         src={Images.Logout}
-                        className="w-[20px] h-[20px]"
+                        className="w-[20px] cursor-pointer h-[20px]"
                         alt=""
                     />
                 </div>

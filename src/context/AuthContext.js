@@ -47,6 +47,15 @@ export const AuthProvider = ({ children }) => {
     const { seconds, minutes, start, reset, pause } = useStopwatch({
         autoStart: true,
     });
+    const [active, setActive] = useState(null);
+    const [currentConversation, setCurrentConversation] = useState(null);
+    const [messages, setMessages] = useState(() =>
+        localStorage.getItem("messages")
+            ? JSON.parse(localStorage.getItem("conversations"))
+            : []
+    );
+    const [groupByDate, setGroupByDate] = useState(null);
+    const [filesList, setFilesList] = useState(null);
 
     const navigate = useNavigate();
 
@@ -208,6 +217,53 @@ export const AuthProvider = ({ children }) => {
     const handleVideoCallOpen = () => setOpenVideoCall(true);
     const handleVideoCallClose = () => setOpenVideoCall(false);
 
+    const handleClickedConversation = async (conversation) => {
+        setActive(conversation.id);
+        let response = await fetch(
+            BASE_URL + "api/chat/conversation_messages/" + conversation.id,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + String(authTokens.access),
+                },
+            }
+        );
+
+        let data = await response.json();
+
+        if (response.status === 200) {
+            setMessages(data);
+            console.log();
+            setGroupByDate(
+                data.reduce((acc, el, idx, arr) => {
+                    let date = new Date(el.date_sent).toLocaleDateString(); //10/11/13 //10/22/22
+                    acc[date] = (acc[date] ?? []).concat([el]); // acc[date] === date && [acc[date] ?? [], el]; [al].concat([el]) // [al, el]
+                    return acc;
+                }, {})
+            );
+            setFilesList(
+                data.reduce((acc, el) => {
+                    el.files &&
+                        acc.push(
+                            el.files
+                                .replace(
+                                    "http://localhost:8000/media/conversation_files/",
+                                    ""
+                                )
+                                .replaceAll("_", " ")
+                        );
+                    return acc;
+                }, [])
+            );
+            // setFilesList()
+            localStorage.setItem("messages", JSON.stringify(data));
+        } else if (response.statusText === "Unauthorized") {
+            logoutUser();
+        }
+        setCurrentConversation(conversation);
+    };
+
     let contextData = {
         BASE_URL,
         openFileUpload,
@@ -225,6 +281,12 @@ export const AuthProvider = ({ children }) => {
         minutes,
         openVoiceCall,
         openVideoCall,
+        active,
+        currentConversation,
+        messages,
+        groupByDate,
+        filesList,
+        handleClickedConversation,
         handleVideoCallOpen,
         handleVideoCallClose,
         handleVoiceCallClose,

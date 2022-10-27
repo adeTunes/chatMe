@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/AuthContext";
 import * as Images from "../utils";
+import ConversationList from "./ConversationList";
 
 export default function Aside({ handleViewProfileClick }) {
+    const { conversations, user } = useContext(AuthContext);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [userSearch, setUserSearch] = useState(null);
+    const handleSearch = () => {
+        const result = conversations.filter((el) => {
+            return (
+                (el.second_party_username === user.username &&
+                    el.starter_username.includes(searchTerm)) ||
+                (el.stater_username === user.username &&
+                    el.second_party_username.includes(searchTerm))
+            );
+        });
+
+        setUserSearch(result);
+    };
+
+    const handleKey = (e) => {
+        e.code === "Enter" && handleSearch();
+    };
+
+    useEffect(() => {
+        searchTerm === "" && setUserSearch(null);
+    }, [searchTerm]);
+
     return (
         <aside className="w-[300px] pt-[40px] overflow-auto flex flex-col gap-[25px] items-start  bg-[#212143]">
             <div
                 onClick={handleViewProfileClick}
                 className="flex items-center cursor-pointer px-[25px] gap-[12px]">
                 <img
-                    src={Images.ProfilePicture}
-                    className="rounded-[50%] w-[50px] h-[50px]"
+                    src={user.profile_picture}
+                    className="rounded-[50%] object-cover w-[50px] h-[50px]"
                     alt=""
                 />
                 <div className="flex flex-col items-start gap-[4px]">
                     <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                        Tunes Adeks
+                        {user.username.replace(
+                            user.username[0],
+                            user.username[0].toLocaleUpperCase()
+                        )}
                     </p>
                     <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
                         Hey there! I use ChatMe
@@ -28,6 +57,9 @@ export default function Aside({ handleViewProfileClick }) {
                         type="search"
                         placeholder="search"
                         className="w-full h-full outline-0"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={handleKey}
                     />
                 </div>
             </div>
@@ -35,187 +67,18 @@ export default function Aside({ handleViewProfileClick }) {
                 <p className="font-semibold px-[25px] text-[14px] leading-[24px] text-[#fff]">
                     Recent Chats
                 </p>
-                <ul className="flex flex-col gap-[10px] w-full pb-[20px] items-start overflow-auto">
-                    <li className="flex relative px-[25px] active py-[8px] w-full items-center gap-[12px]">
-                        <img
-                            src={Images.Person4}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Online}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                James Brits
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hi love! How are you doing t...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person3}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Offline}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Abraham Adeks
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person5}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Online}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Davies Stormborn
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person6}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Offline}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Abraham Adeks
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person7}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Online}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Koder Black
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person8}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Offline}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Sansa Stark
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person9}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Online}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Ayra Savage
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person10}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Offline}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Abraham Adeks
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
-                    <li className="flex relative px-[25px] py-[8px] items-center gap-[12px]">
-                        <img
-                            src={Images.Person11}
-                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
-                            alt=""
-                        />
-                        <img
-                            src={Images.Online}
-                            className="absolute bottom-[10px] left-[60px]"
-                            alt=""
-                        />
-                        <div className="flex flex-col items-start gap-[4px]">
-                            <p className="font-[600] text-[14px] leading-[24px] text-[#fff]">
-                                Abraham Adeks
-                            </p>
-                            <p className="font-[400] text-[12px] leading-[20px] text-[#9FA19C]">
-                                Hey! Good evening. Still expec...
-                            </p>
-                        </div>
-                    </li>
+                <ul className="flex flex-col w-full pb-[20px] items-start overflow-auto">
+                    {userSearch ? (
+                        userSearch.map((item) => (
+                            <ConversationList key={item.id} item={item} />
+                        ))
+                    ) : conversations.length > 0 ? (
+                        conversations.map((item) => (
+                            <ConversationList key={item.id} item={item} />
+                        ))
+                    ) : (
+                        <span>Search for a user to start a conversation</span>
+                    )}
                 </ul>
             </div>
         </aside>

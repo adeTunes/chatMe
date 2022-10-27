@@ -1,12 +1,14 @@
 import * as React from "react";
 import Menu from "@mui/material/Menu";
-import { ProfilePicture } from "../utils";
+import AuthContext from "../context/AuthContext";
 
 export default function ViewUserProfile({
     anchorViewProfileEl,
     handleViewProfileClose,
 }) {
     const open = Boolean(anchorViewProfileEl);
+
+    const { user } = React.useContext(AuthContext);
 
     const style = {
         position: "absolute",
@@ -26,13 +28,16 @@ export default function ViewUserProfile({
                 <div className="py-[25px] px-[25px] flex flex-col items-center gap-[25px]">
                     <div className="flex items-center cursor-pointer px-[25px] gap-[12px]">
                         <img
-                            src={ProfilePicture}
-                            className="rounded-[50%] w-[50px] h-[50px]"
+                            src={user.profile_picture}
+                            className="rounded-[50%] object-cover w-[50px] h-[50px]"
                             alt=""
                         />
                         <div className="flex flex-col items-start gap-[4px]">
                             <p className="font-[600] text-[13px] leading-[24px] text-[#212143]">
-                                Tunes Adeks
+                                {user.username.replace(
+                                    user.username[0],
+                                    user.username[0].toLocaleUpperCase()
+                                )}
                             </p>
                             <p className="font-[400] text-[11px] leading-[20px] text-[#9FA19C]">
                                 Hey there! I use ChatMe

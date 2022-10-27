@@ -46,6 +46,10 @@ import pdfIcon from "./images/pdfLogo.png";
 import pptLogo from "./images/pptLogo.png";
 import xlsLogo from "./images/xlsLogo.png";
 import docLogo from "./images/docLogo.png";
+import imagePlaceholder from "./images/image-placeholder.png";
+import videoPlaceholder from "./images/video-placeholder.png";
+import voiceNotePlaceholder from "./images/voice-note-placeholder.png";
+import subtract from "./images/Subtract.png";
 import videoCall from "./images/video-call.gif";
 
 export const Logo = logo;
@@ -97,3 +101,7 @@ export const PdfIcon = pdfIcon;
 export const PptLogo = pptLogo;
 export const XlsLogo = xlsLogo;
 export const DocLogo = docLogo;
+export const ImagePlaceholder = imagePlaceholder;
+export const VideoPlaceholder = videoPlaceholder;
+export const VoiceNotePlaceholder = voiceNotePlaceholder;
+export const Subtract = subtract;
